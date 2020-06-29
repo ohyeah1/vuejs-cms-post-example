@@ -14,9 +14,10 @@
           </div>
           <md-card-content>
             <simple-table
+              @pageChange="fetchData"
               table-header-color="green"
               :postsData="postsData"
-              :page="page"
+              :page="+page"
               :total="total"
             ></simple-table>
           </md-card-content>
@@ -44,11 +45,26 @@ export default {
     total: 0
   }),
 
+  computed: {
+    pageChange: function() {
+      return this.$route.query && this.$route.query.page
+        ? this.$route.query.page
+        : 1;
+    }
+  },
+
+  watch: {
+    pageChange(newValue) {
+      this.fetchData()
+    }
+  },
+
   mounted() {
     // fetch the data when the view is created and the data is
     // already being observed
     this.fetchData();
   },
+
   methods: {
     fetchData() {
       console.log("fetchData id", this.$route.params, this.$route.query);
@@ -67,7 +83,7 @@ export default {
           this.total = response.data.total || 0;
           console.log("fetchData done", response.data);
         });
-    },
-  },
+    }
+  }
 };
 </script>

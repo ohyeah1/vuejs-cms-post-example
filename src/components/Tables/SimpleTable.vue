@@ -23,6 +23,11 @@
     <div class="md-layout-nowrapmd-layout">
       <div class="md-layout-item md-layout md-alignment-center-right ">
         <router-link
+          @click="
+            e => {
+              $emit('pageChange', parseInt(page) - 1);
+            }
+          "
           v-if="total && page > 1"
           :to="{ path: 'table', query: { page: parseInt(page) - 1 } }"
           exact
@@ -37,6 +42,11 @@
           </div>
         </router-link>
         <router-link
+          @click="
+            e => {
+              $emit('pageChange', parseInt(page) + 1);
+            }
+          "
           v-if="total && page < Math.ceil(total / 10)"
           :to="{ path: 'table', query: { page: parseInt(page) + 1 } }"
           exact
